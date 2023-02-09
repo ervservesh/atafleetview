@@ -1,0 +1,64 @@
+@charset "utf-8";
+/* CSS Document */
+
+@font-face {
+        font-family: "Gill Sans MT";
+        src: url('../fonts/784698487-GillSansMT-BoldItalic.eot');
+        src: url('../fonts/784698487-GillSansMT-BoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/784698487-GillSansMT-BoldItalic.svg#Gill Sans MT') format('svg'),
+        url('../fonts/784698487-GillSansMT-BoldItalic.woff') format('woff'),
+        url('../fonts/784698487-GillSansMT-BoldItalic.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+}
+
+@font-face {
+	font-family: 'myriadpro-regular';
+	src: url('../fonts/myriadpro-reg-webfont.eot?') format('eot'), 
+	     url('../fonts/myriadpro-reg-webfont.woff') format('woff'), 
+	     url('../fonts/myriadpro-reg-webfont.ttf')  format('truetype'),
+	     url('../fonts/myriadpro-reg-webfont.svg#myriadpro-regular') format('svg');
+}
+
+@font-face {
+    font-family: 'swis721_cn_btbold';
+    src: url('../fonts/tt0010m-webfont.eot');
+    src: url('../fonts/tt0010m-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/tt0010m-webfont.woff') format('woff'),
+         url('../fonts/tt0010m-webfont.ttf') format('truetype'),
+         url('../fonts/tt0010m-webfont.svg#swis721_cn_btbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'swis721_cn_btroman';
+    src: url('../fonts/tt0009m-webfont.eot');
+    src: url('../fonts/tt0009m-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/tt0009m-webfont.woff') format('woff'),
+         url('../fonts/tt0009m-webfont.ttf') format('truetype'),
+         url('../fonts/tt0009m-webfont.svg#swis721_cn_btroman') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+/*@font-face {
+	font-family:'adineue';
+	src:url("../fonts/adineue-bold-webfont.eot");
+	src:url("../fonts/adineue-bold-webfont.eot?#iefix") format("embedded-opentype"),url("../fonts/adineue-bold-webfont.woff") format("woff"),url("../fonts/adineue-bold-webfont.ttf") format("truetype"),url("../fonts/adineue-bold-webfont.svg#webfont") format("svg")
+}
+@font-face {
+	font-family:'adihaus';
+	src:url("../fonts/adihrg-webfont-webfont.eot");
+	src:url("../fonts/adihrg-webfont-webfont.eot?#iefix") format("embedded-opentype"),url("../fonts/adihrg-webfont-webfont.woff") format("woff"),url("../fonts/adihrg-webfont-webfont.ttf") format("truetype"),url("../fonts/adihrg-webfont-webfont.svg#webfont") format("svg")
+}
+@font-face {
+	font-family:'adihaus';
+	font-weight:bold;
+	src:url("../fonts/adihdb-webfont-webfont.eot");
+	src:url("../fonts/adihdb-webfont-webfont.eot?#iefix") format("embedded-opentype"),url("../fonts/adihdb-webfont-webfont.woff") format("woff"),url("../fonts/adihdb-webfont-webfont.ttf") format("truetype"),url("../fonts/adihdb-webfont-webfont.svg#webfont") format("svg")
+}*/

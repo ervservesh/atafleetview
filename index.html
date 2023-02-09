@@ -1,0 +1,853 @@
+﻿<!DOCTYPE html>
+<html class=" js csstransforms csstransforms3d csstransitions">
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>Welcome to ATA Fleet View</title>
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/font.css">
+  <script type="text/javascript">
+    var is_ipad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
+    var is_iphone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
+    var is_ipod = navigator.userAgent.toLowerCase().indexOf('ipod') > -1;
+    var is_ios = is_ipad || is_iphone || is_ipod;
+    if (is_iphone || is_ipod) {
+      document.write('<meta name="viewport" content="width=1920, initial-scale=0.3, user-scalable=yes">');
+    } else if (is_ipad) {
+      document.write('<meta name="viewport" content="width=1920, initial-scale=0.7, minimum-scale=0.7, maximum-scale=0.7, user-scalable=no">');
+    }
+  </script>
+  <!--[if lt IE 9]>
+  <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <link rel="stylesheet" href="css/ie8-layout.css">
+  <![endif]-->
+  <!--[if gte IE 9]>
+  <link rel="stylesheet" href="css/layout.css">
+  <![endif]-->
+  <!--[if lt IE 8]>
+  <meta http-equiv="refresh" content="0">
+  <![endif]-->
+  <!--[if !IE]><!-->
+  <script type="text/javascript">
+    if (is_ios) {
+      document.write('<link rel="stylesheet" href="css/ipad-layout.css">');
+    } else {
+      document.write('<link rel="stylesheet" href="css/layout.css">');
+    }
+  </script>
+
+  <!-- <![endif]-->
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+  </head>
+  <body>
+<!-- it works the same with all jquery version from 1.x to 2.x --> 
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script> 
+<script src="js/html5shiv-printshiv.js"></script>
+<!-- use jssor.slider.mini.js (39KB) or jssor.sliderc.mini.js (31KB, with caption, no slideshow) or jssor.sliders.mini.js (26KB, no caption, no slideshow) instead for release --> 
+<!-- jssor.slider.mini.js = jssor.sliderc.mini.js = jssor.sliders.mini.js = (jssor.core.js + jssor.utils.js + jssor.slider.js) --> 
+<script type="text/javascript" src="js/jssor.core.js"></script> 
+<script type="text/javascript" src="js/jssor.utils.js"></script> 
+<script type="text/javascript" src="js/jssor.slider.js"></script> 
+<script type="text/javascript">
+        jQuery(document).ready(function ($) {
+
+            var _CaptionTransitions = [];
+            _CaptionTransitions["L"] = { $Duration: 900, $FlyDirection: 1, $Easing: { $Left: $JssorEasing$.$EaseInOutSine }, $ScaleHorizontal: 0.6, $Opacity: 2 };
+            _CaptionTransitions["R"] = { $Duration: 900, $FlyDirection: 2, $Easing: { $Left: $JssorEasing$.$EaseInOutSine }, $ScaleHorizontal: 0.6, $Opacity: 2 };
+            _CaptionTransitions["T"] = { $Duration: 900, $FlyDirection: 4, $Easing: { $Top: $JssorEasing$.$EaseInOutSine }, $ScaleVertical: 0.6, $Opacity: 2 };
+            _CaptionTransitions["B"] = { $Duration: 900, $FlyDirection: 8, $Easing: { $Top: $JssorEasing$.$EaseInOutSine }, $ScaleVertical: 0.6, $Opacity: 2 };
+            _CaptionTransitions["ZMF|10"] = { $Duration: 900, $Zoom: 11, $Easing: { $Zoom: $JssorEasing$.$EaseOutQuad, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 };
+            _CaptionTransitions["RTT|10"] = { $Duration: 900, $Zoom: 11, $Rotate: 1, $Easing: { $Zoom: $JssorEasing$.$EaseOutQuad, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInExpo }, $Opacity: 2, $Round: { $Rotate: 0.8} };
+            _CaptionTransitions["RTT|2"] = { $Duration: 900, $Zoom: 3, $Rotate: 1, $Easing: { $Zoom: $JssorEasing$.$EaseInQuad, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInQuad }, $Opacity: 2, $Round: { $Rotate: 0.5} };
+            _CaptionTransitions["RTTL|BR"] = { $Duration: 900, $Zoom: 11, $Rotate: 1, $FlyDirection: 10, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Top: $JssorEasing$.$EaseInCubic, $Zoom: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInCubic }, $ScaleHorizontal: 0.6, $ScaleVertical: 0.6, $Opacity: 2, $Round: { $Rotate: 0.8} };
+            _CaptionTransitions["CLIP|LR"] = { $Duration: 900, $Clip: 15, $Easing: { $Clip: $JssorEasing$.$EaseInOutCubic }, $Opacity: 2 };
+            _CaptionTransitions["MCLIP|L"] = { $Duration: 900, $Clip: 1, $Move: true, $Easing: { $Clip: $JssorEasing$.$EaseInOutCubic} };
+            _CaptionTransitions["MCLIP|R"] = { $Duration: 900, $Clip: 2, $Move: true, $Easing: { $Clip: $JssorEasing$.$EaseInOutCubic} };
+
+            var options = {
+                $FillMode: 2,                                       //[Optional] The way to fill image in slide, 0 stretch, 1 contain (keep aspect ratio and put all inside slide), 2 cover (keep aspect ratio and cover whole slide), 4 actuall size, default value is 0
+                $AutoPlay: false,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
+                $AutoPlayInterval: 4000,                            //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
+                $PauseOnHover: 1,                                   //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, default value is 1
+
+                $ArrowKeyNavigation: true,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
+                $SlideEasing: $JssorEasing$.$EaseOutQuint,          //[Optional] Specifies easing for right to left animation, default value is $JssorEasing$.$EaseOutQuad
+                $SlideDuration: 1200,                               //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
+                $MinDragOffsetToSlide: 20,                          //[Optional] Minimum drag offset to trigger slide , default value is 20
+                //$SlideWidth: 600,                                 //[Optional] Width of every slide in pixels, default value is width of 'slides' container
+                //$SlideHeight: 300,                                //[Optional] Height of every slide in pixels, default value is height of 'slides' container
+                $SlideSpacing: 0, 					                //[Optional] Space between each slide in pixels, default value is 0
+                $DisplayPieces: 1,                                  //[Optional] Number of pieces to display (the slideshow would be disabled if the value is set to greater than 1), the default value is 1
+                $ParkingPosition: 0,                                //[Optional] The offset position to park slide (this options applys only when slideshow disabled), default value is 0.
+                $UISearchMode: 1,                                   //[Optional] The way (0 parellel, 1 recursive, default value is 1) to search UI components (slides container, loading screen, navigator container, arrow navigator container, thumbnail navigator container etc).
+                $PlayOrientation: 1,                                //[Optional] Orientation to play slide (for auto play, navigation), 1 horizental, 2 vertical, default value is 1
+                $DragOrientation: 1,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
+
+                $CaptionSliderOptions: {                            //[Optional] Options which specifies how to animate caption
+                    $Class: $JssorCaptionSlider$,                   //[Required] Class to create instance to animate caption
+                    $CaptionTransitions: _CaptionTransitions,       //[Required] An array of caption transitions to play caption, see caption transition section at jssor slideshow transition builder
+                    $PlayInMode: 1,                                 //[Optional] 0 None (no play), 1 Chain (goes after main slide), 3 Chain Flatten (goes after main slide and flatten all caption animations), default value is 1
+                    $PlayOutMode: 3                                 //[Optional] 0 None (no play), 1 Chain (goes before main slide), 3 Chain Flatten (goes before main slide and flatten all caption animations), default value is 1
+                },
+
+                $BulletNavigatorOptions: {                          //[Optional] Options to specify and enable navigator or not
+                    $Class: $JssorBulletNavigator$,                 //[Required] Class to create navigator instance
+                    $ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                    $AutoCenter: 1,                                 //[Optional] Auto center navigator in parent container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                    $Steps: 1,                                      //[Optional] Steps to go for each navigation request, default value is 1
+                    $Lanes: 1,                                      //[Optional] Specify lanes to arrange items, default value is 1
+                    $SpacingX: 8,                                   //[Optional] Horizontal space between each item in pixel, default value is 0
+                    $SpacingY: 8,                                   //[Optional] Vertical space between each item in pixel, default value is 0
+                    $Orientation: 1                                 //[Optional] The orientation of the navigator, 1 horizontal, 2 vertical, default value is 1
+                },
+
+                $ArrowNavigatorOptions: {                           //[Optional] Options to specify and enable arrow navigator or not
+                    $Class: $JssorArrowNavigator$,                  //[Requried] Class to create arrow navigator instance
+                    $ChanceToShow: 1,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                    $AutoCenter: 2,                                 //[Optional] Auto center arrows in parent container, 0 No, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                    $Steps: 1                                       //[Optional] Steps to go for each navigation request, default value is 1
+                }
+            };
+			
+			//slider1_container
+            var jssor_slider = new $JssorSlider$("slider1_container", options);
+
+            //responsive code begin
+            //you can remove responsive code if you don't want the slider scales while window resizes
+            function ScaleSlider() {
+                var bodyWidth = document.body.clientWidth;
+                if (bodyWidth)
+                    jssor_slider.$SetScaleWidth(Math.min(bodyWidth, 1920));
+                else
+                    window.setTimeout(ScaleSlider, 30);
+            }
+
+            ScaleSlider();
+
+            if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
+                $(window).bind('resize', ScaleSlider);
+            }
+			
+			
+			//slider1_container1
+			var jssor_slider1 = new $JssorSlider$("slider1_container1", options);
+
+            //responsive code begin
+            //you can remove responsive code if you don't want the slider scales while window resizes
+            function ScaleSlider1() {
+                var bodyWidth1 = document.body.clientWidth;
+                if (bodyWidth1)
+                    jssor_slider1.$SetScaleWidth(Math.min(bodyWidth1, 1920));
+                else
+                    window.setTimeout(ScaleSlider1, 30);
+            }
+
+            ScaleSlider1();
+
+            if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
+                $(window).bind('resize', ScaleSlider1);
+            }
+			
+			//slider1_container2
+			var jssor_slider2 = new $JssorSlider$("slider1_container2", options);
+
+            //responsive code begin
+            //you can remove responsive code if you don't want the slider scales while window resizes
+            function ScaleSlider2() {
+                var bodyWidth2 = document.body.clientWidth;
+                if (bodyWidth2)
+                    jssor_slider2.$SetScaleWidth(Math.min(bodyWidth2, 1920));
+                else
+                    window.setTimeout(ScaleSlider2, 30);
+            }
+
+            ScaleSlider2();
+
+            if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
+                $(window).bind('resize', ScaleSlider2);
+            }
+
+
+
+			//slider1_container3
+			var jssor_slider3 = new $JssorSlider$("slider1_container3", options);
+
+            //responsive code begin
+            //you can remove responsive code if you don't want the slider scales while window resizes
+            function ScaleSlider3() {
+                var bodyWidth3 = document.body.clientWidth;
+                if (bodyWidth3)
+                    jssor_slider3.$SetScaleWidth(Math.min(bodyWidth3, 1920));
+                else
+                    window.setTimeout(ScaleSlider3, 30);
+            }
+
+            ScaleSlider3();
+
+            if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
+                $(window).bind('resize', ScaleSlider3);
+            }
+			
+			//slider1_container4
+            var jssor_slider4 = new $JssorSlider$("slider1_container4", options);
+
+            //responsive code begin
+            //you can remove responsive code if you don't want the slider scales while window resizes
+            function ScaleSlider4() {
+                var bodyWidth4 = document.body.clientWidth;
+                if (bodyWidth4)
+                    jssor_slider4.$SetScaleWidth(Math.min(bodyWidth4, 1920));
+                else
+                    window.setTimeout(ScaleSlider4, 30);
+            }
+
+            ScaleSlider4();
+
+            if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
+                $(window).bind('resize', ScaleSlider4);
+            }
+
+            //if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
+            //    $(window).bind("orientationchange", ScaleSlider);
+            //}
+            //responsive code end
+        });
+		
+    </script>
+    <script type="text/javascript">
+    /*   function XXXL() {
+            var aa = $("#XYZ2").position().left;
+            if (aa == 0) {
+                $(".login-form").fadeIn(100);
+            }
+            else {
+                $(".login-form").fadeOut(100);
+            }
+        }
+        function XXXR() {
+            var aa = $("#XYZ5").position().left;
+            if (aa == 0) {
+                $(".login-form").fadeIn(100);
+            }
+            else {
+                $(".login-form").fadeOut(100);
+            }
+        } */
+		/*function XXX1(){
+		 var aa = $("#XYZ2").position().left;
+		 
+            if (aa == 0) {
+               $('.txtparafrm').show();
+            }
+			else{
+				$('.txtparafrm').hide();
+			}
+		}
+		function XXX2(){
+			var aa = $("#XYZ5").position().left;
+			 if (aa == 0) {
+				$(".txtparafrm").show();
+			 }
+			 else{
+				$(".txtparafrm").hide();
+			 }
+		}*/
+        
+    </script>
+<header id="header">
+    <div class="innerWrapper">
+    <div id="logo"> <img src="images/logo.png" alt=""> </div>
+    <div class="right-logo"> <img src="images/ata-services-logo.png" alt=""> </div>
+    <nav>
+        <ul id="header-ul">
+        <li>
+            <div> <a href="#ada_compliance">ADA Compliance
+              <section class="tip"> Managing all your compliance issues</section>
+              </a> </div>
+          </li>
+        <li>
+            <div> <a href="#cleaning">Cleaning / Maintenance
+              <section class="tip"> Extending the life of your ATM fleet</section>
+              </a> </div>
+          </li>
+        <li>
+            <div> <a href="#site_survey">Site Survey
+              <section class="tip"> Improving your ATM installation process</section>
+              </a> </div>
+        </li>
+        <!--<li>
+		<div>
+			<a href="#all_cities" class="log_1">
+			<section class="tip">
+            Sign In/Register
+			</section></a>
+		</div>
+		</li>-->
+        <li>
+            <div> <a href="#about_ata">About ATA
+              <section class="tip"> Inviting you to explore more about us</section>
+              </a> </div>
+         </li>
+      </ul>
+      </nav>
+    <a href="schedule_demo.html" class="sche_1" target="_blank">Schedule Your Demo</a> <a href="signin_register.html" target="_blank" class="log_1">
+      <section class="tip"> Sign In/Register </section>
+      </a> </div>
+  </header>
+<ul id="topics">
+    <li id="" data-next-name="ADA Compliance" data-subline="Manage your network" data-header="light" data-keyboard="keys_down_active">
+    <article><span class="scrollDetectMiddle"></span>
+    <!--<div class="txtparafrm">
+                <hgroup class="heading">
+                <div class="login-form">
+                    <form>
+                    <h5>Login:</h5>
+                    <div>
+                        <input onclick="this.value=''" type="text" value="User Name">
+                      </div>
+                    <div>
+                        <input onclick="this.value=''" type="password" value="Password">
+                      </div>
+                    <div style="padding-left:40px">
+                        <input type="submit" value="Login" onclick="return false">
+                      </div>
+                  </form>
+                  </div>
+              </hgroup>
+                <div class="clear"> </div>
+              </div>-->
+        <div id="slider1_container" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width:1349px; height: 780px; overflow: hidden;"> 
+        <!-- Loading Screen -->
+        
+        <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+            <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;top: 0px; left: 0px; width: 100%; height: 100%;"> </div>
+            <div style="position: absolute; display: block; background: url(images/loading.gif) no-repeat center center;top: 0px; left: 0px; width: 100%; height: 100%;"> </div>
+          </div>
+        <div class="slides" u="slides" style=" position: absolute; left: 0px; top: 0px; height:780px; width:1349px; overflow: hidden;">
+            <div class="slide-part" id="XYZ1"> 
+                <img u="image" src="images/fleet_view.jpg" />
+                <div class="ban-logo"> <img src="images/banner-logo.png" alt="">
+                    <h4 class="headfront">Climb aboard the Official Data Management Tool of Better</h4>
+                </div>
+                <!--Form here-->
+                <div class="txtparafrm">
+                <hgroup class="heading">
+                <div class="login-form">
+                    <form>
+                    <h5>Login:</h5>
+                    <div>
+                        <input onclick="this.value=''" type="text" value="User Name">
+                      </div>
+                    <div>
+                        <input onclick="this.value=''" type="password" value="Password">
+                      </div>
+                    <div style="padding-left:40px">
+                        <input type="submit" value="Login" onclick="return false">
+                      </div>
+                  </form>
+                  </div>
+              </hgroup>
+                <div class="clear"> </div>
+              </div>
+                <!--End form here-->
+          	</div>
+            <div class="slide-part" id="XYZ2"> <img u="image" src="images/fleet_view1.jpg" />
+            	<div class="contP">
+                    <p> ATA Services has been in the ATM management sector for 18+ years and we know the complexities related to<br>
+                    managing ATM fleets.  We set-out to improve the management process and completely change the way you view,<br>
+                    manage, and maintain your fleet of ATM’s.  No more guess work, poorly organized information, or frustration.<br>
+                    With FleetView you can manage your entire fleet of ATM’s with a smartphone, tablet, or at your desktop with a<br>
+                    few clicks of the mouse.  With our cutting-edge technology we can reduce what normally requires months or<br>
+                    work down to a few minutes each day.</p>
+                    <br>
+                    <a href="schedule_demo.html" target="_blank" class="sche">Schedule Your Demo</a>
+                    <h6>START SEEING YOUR ATM’s THROUGH THE 20/20 VISION OF FLEETVIEW.</h6>
+              </div>
+          	</div>
+            <div class="slide-part" id="XYZ3"> <img u="image" src="images/fleet_view2.jpg" />
+            <div class="contPP">
+                <h6>Fleetview enables you to:</h6>
+                <ul>
+                <li>View up-to-date photos of ATM’s and branding elements</li>
+                <li>Manage your entire network in minutes</li>
+                <li>Review compliance issues quickly and easily</li>
+                <li>Control brand and messaging</li>
+                <li>Assign repairs and manage the repair cycle</li>
+                <li>View and export powerful reports</li>
+                <li>Share images and data easily with push email technology</li>
+                <li>Export formatted reports to excel</li>
+              </ul>
+              </div>
+          </div>
+            <div class="slide-part" id="XYZ4"> <img u="image" src="images/fleet_view3.jpg" />
+            <div class="contPP_2">
+                <h6>A lifecycle approach to managing your ATM fleet </h6>
+              </div>
+          </div>
+            <div class="slide-part" id="XYZ5"> <img u="image" src="images/fleet_view4.jpg" />
+            <div class="contPP_3">
+                <p>No more road trips, piles of receipts, and delayed information.  With FleetView you can manage your ATM fleet information so fast we recommend wearing speed goggles.</p>
+              </div>
+          </div>
+            <!-- Example to add fixed static share buttons in slider BEGIN --> 
+            
+          </div>
+        
+        <!-- Arrow Left --> 
+        <span onClick="XXX1()" u="arrowleft" class="jssora21l" style="width: 55px; height: 55px; top: 23px; left: 8px;"> </span> 
+        <!-- Arrow Right --> 
+        <span onClick="XXX2()" u="arrowright" class="jssora21r" style="width: 55px; height: 55px; top: 23px; right: 8px"> </span> 
+        <!-- Arrow Navigator Skin End --> 
+        
+      </div>
+      </article>
+  </li>
+    <li id="ada_compliance" data-next-name="Cleaning/Maintenance" data-subline="ATA Fleet View" data-header="dark" data-keyboard="keys_up_down_left_right_active" style="background-color:#000">
+    <article><span class="scrollDetectMiddle"></span>
+        <div id="slider1_container1" class="ada_compliance" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width:1349px;  height: 780px; overflow: hidden;"> 
+        <!-- Loading Screen -->
+        <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+            <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;top: 0px; left: 0px; width: 100%; height: 100%;"> </div>
+            <div style="position: absolute; display: block; background: url(images/loading.gif) no-repeat center center;top: 0px; left: 0px; width: 100%; height: 100%;"> </div>
+          </div>
+        <div u="slides" style=" position: absolute; left: 0px; top: 0px; width:1349px;  height:780px; overflow: hidden;">
+            <div class="slide-part"> <img u="image" src="images/ada_1_middle.jpg" />
+            <figure class="copy">
+                <h3 class="title">
+                <div class="headtext" style="float:right; width:600px; text-align:right; padding-top:315px; padding-right:160px; position:relative;"> ADA<br />
+                    Compliance </div>
+              </h3>
+              </figure>
+          </div>
+            <div class="slide-part">
+            <figure class="copy" style="border:1px solid #F90"><span class="copy">
+              <div class="become-com"> <img src="images/compiiance.png" width="463" height="186"><br>
+                Are you...or are you not?  When it comes to being compliant we understand that the only answer to this question should be YES.  The Department of Justice<br>
+                has established guidelines and when you partner with ATA Services we ensure that all of your ATM’s meet these guidelines.  Contact us to discuss our<br>
+                various programs.  You can manage all of your compliant issues in FleetView which allows you to effectively identify those issues and begin the process of <br>
+                becoming ADA compliant. </div>
+              </span></figure>
+          </div>
+            <div class="slide-part">
+            <figure class="copy">
+                <div style="margin-top:225px;"> <span class="copy">
+                  <div style="text-align:center; width:100%; margin 0 auto;"> <img src="images/compiiance2.png" width="463" height="186"> </div>
+                  <div class="hight-reach"> ATM’s must be accessible to customers in wheelchairs.  The Department of Justice<br>
+                  has established thresholds for acceptable height and reach to customer interaction<br>
+                  points on ATM’s, automated ticket sales kiosks, and other automated dispensing<br>
+                  devices.  A height and reach survey performed by ATA Services establishes the<br>
+                  existing dimensions at installed ATM’s.   Data and photos are then available in<br>
+                  FleetView to aid in developing a compliance plan for non-compliant locations and<br>
+                  provides an auditable proof of compliance. </div>
+                  <div class="ada-img"> <img src="images/ada_3_left.png" alt="ADA 3 Left" height="331" width="283"> </div>
+                  </span> </div>
+              </figure>
+            <div> </div>
+          </div>
+            <div class="slide-part">
+            <figure class="copy">
+                <div style="margin: 225px auto 0;"> <span class="copy">
+                  <div style="text-align:center; width:100%; margin 0 auto;"> <img src="images/compiiance3.png" width="463" height="186"> </div>
+                  <div class="hight-reach_1"> ATA Services fully understands the complexities of managing braille and audio<br>
+                  assistance requirements.  ADA compliance surveys provide network-wide data<br>
+                  regarding your existing compliance with specific ATM accessibility requirements.<br>
+                  When you partner with ATA Services you gain access to FleetView which contains<br>
+                  the analytical and reporting tools to help managers understand the scope of their <br>
+                  compliance. Identifying non-compliance through FleetView allows you to formulate<br>
+                  a strategy to become 100% compliant. </div>
+                  <div class="ada-imgR"> <img src="images/ada_3_right.png" alt="ADA 3 Right" height="315" width="377"> </div>
+                  </span> </div>
+              </figure>
+            <div> </div>
+          </div>
+            <div class="slide-part">
+            <figure class="copy">
+                <div style="margin-top:235px;"> <span class="copy">
+                  <div style="text-align:center; width:100%; margin 0 auto;"> <img src="images/branch_access.png"> </div>
+                  <div class="hight-reach"> With ATA Services our programs do not start and stop at your ATM’s.  We have devel-<br>
+                  oped our services to incorporate everything within your facilities. Partnering with<br>
+                  ATA Services puts you in control of your ADA compliance issues and we make sure<br>
+                  that your goals are met.  With Fleetview you can understand, manage, and maintain<br>
+                  all the information for your entire program by simply logging on. </div>
+                  <div class="ada-img"> <img src="images/wheel_1.png" alt="ADA 3 Left" height="331" width="283"> </div>
+                  </span> </div>
+              </figure>
+            <div> </div>
+          </div>
+          </div>
+        <!-- Arrow Left --> 
+        <span u="arrowleft" class="jssora21l" style="width: 55px; height: 55px; top: 23px; left: 8px;"> </span> 
+        <!-- Arrow Right --> 
+        <span u="arrowright" class="jssora21r" style="width: 55px; height: 55px; top: 23px; right: 8px"> </span> 
+        <!-- Arrow Navigator Skin End --> 
+      </div>
+      </article>
+  </li>
+    <li id="cleaning" data-next-name="Site Survey" data-subline="ADA Compliance" data-header="light" data-keyboard="keys_up_down_left_right_active" style="position:relative; background:#000;">
+    <article><span class="scrollDetectMiddle"></span>
+        <div id="slider1_container2" class="cleaning" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width:1349px;  height: 780px; overflow: hidden;"> 
+        <!-- Loading Screen -->
+        <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+            <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;top: 0px; left: 0px; width: 100%; height: 100%;"> </div>
+            <div style="position: absolute; display: block; background: url(images/loading.gif) no-repeat center center;top: 0px; left: 0px; width: 100%; height: 100%;"> </div>
+          </div>
+        <div u="slides" style=" position: absolute; left: 0px; top: 0px; width:1349px;  height:780px; overflow: hidden;">
+            <div class="slide-part"> <img u="image" src="images/cleaning_01.jpg" />
+            <figure class="copy">
+                <h3 class="title">
+                <div class="headtext" style="float:right; width:600px; text-align:right; padding-top:260px; padding-right:160px; position:relative;"> Cleaning </div>
+              </h3>
+              </figure>
+          </div>
+            <div class="slide-part"> 
+            <!--<img u="image" src="images/cleaning_02.jpg" />-->
+            <figure class="copy">
+                <div style="margin: 225px auto 0;position:relative;"> <span class="title">
+                  <div style="text-align:center; "> <img src="images/cleaning_slide1.png" alt=""/> </div>
+                  </span> <span class="copy">
+                  <div class="clean-con tc"> ATA Services has nearly two decades of experience in cleaning and maintaining ATM’s and we<br>
+                    take great pride in making sure your fleet of ATM’s are providing a positive customer<br>
+                    experience.  Cleaning and maintenance services can be sporadic and inconsistent. Managing<br>
+                    the updates and data collection for these services can be known to cause brain cramps. Our<br>
+                    services provide high quality results which can be seen in FleetView.  Put our experience to<br>
+                    work today and start managing all this information with your fingertips. </div>
+                  </span> </div>
+              </figure>
+          </div>
+            <div class="slide-part"> 
+            <!--<img u="image" src="images/cleaning_02.jpg" />-->
+            <figure class="copy">
+                <div style="margin: 225px auto 0;"> <span class="title">
+                  <div style	="text-align:center"> <img src="images/cleaning_slide2.png" alt=""/> </div>
+                  </span> <span class="copy">
+                  <div class="clean-con_1"> With an ATA Services contract we provide more than just a little spit and polish. You<br>
+                    gain access to categorized information and images that are easily managed within<br>
+                    FleetView. This information is organized into the following five categories:
+                    <div style="padding:10px 0 0 20px;"> 1. Brand - Signage, Lighting, Marketing Panel, Vicinity Signs.<br>
+                      2. Compliance - Audio Jack, Braille Audio Arrow, Braille Audio Assistance, Braille<br>
+                      Functionality, Network Logo, Deposit / Funds Availability, Fee Notice.<br>
+                      3. Customer Experience - Receipt Printer, Cleanliness, Monitor, Faux Card, Envelope<br>
+                      Holder, Trash Can, Writing Shelf.<br>
+                      4. Life Cycle - Fascia, Case, Surround, Kiosk, Bollards.<br>
+                      5. Security - Skimming Device, Safety Problems, Mirrors. </div>
+                    <div class="clean-img"> <img src="images/cleaning_trans.png" alt="Cleaning 3 Right" width="379" height="309"> </div>
+                  </div>
+                  </span> </div>
+              </figure>
+          </div>
+            <div class="slide-part"> 
+            <!--<img u="image" src="images/cleaning_02.jpg" />-->
+            <figure class="copy">
+                <div style="margin: 225px auto 0;"> <span class="title">
+                  <div style="text-align:center"> <img src="images/cleaning_slide2.png" alt=""/> </div>
+                  </span> <span class="copy">
+                  <div class="clean-con_1" style="padding-right:20px;"> When you partner with ATA Services to extend the life of your ATM fleet you receive<br>
+                    professional cleaning maintenance services and a great deal more:<br>
+                    <br>
+                    <ul class="list">
+                      <li>National Footprint</li>
+                      <li>Certified and Trained Technicians</li>
+                      <li>Data and Photos of Your ATM Fleet</li>
+                      <li>Full Access to Exclusive FleetView Data Management Tool </li>
+                      <li>Thorough Data Integrity and Review Process For All Data and Images</li>
+                      <li>Peace of Mind</li>
+                      <!--<div class="ata-sr">ATA Services has a national footprint with over 65 skilled, trained, and certified technicians to meet all of your ATM cleaning and maintenance initiatives.</div>-->
+                    </ul>
+                    <div class="clean-img"> <img src="images/map.png" alt="Cleaning 3 Right"> </div>
+                  </div>
+                  </span> </div>
+              </figure>
+          </div>
+          </div>
+        <!-- Arrow Left --> 
+        <span u="arrowleft" class="jssora21l" style="width: 55px; height: 55px; top: 23px; left: 8px;"> </span> 
+        <!-- Arrow Right --> 
+        <span u="arrowright" class="jssora21r" style="width: 55px; height: 55px; top: 23px; right: 8px"> </span> 
+        <!-- Arrow Navigator Skin End --> 
+      </div>
+      </article>
+  </li>
+    <li class="" id="site_survey" data-next-name="About ATA" data-subline="Cleaning/Maintenance" data-header="light" data-keyboard="keys_up_down_left_right_active">
+    <article><span class="scrollDetectMiddle"></span>
+        <div id="slider1_container3" class="site_survey" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width:1349px;  height: 780px; overflow: hidden;">
+        <!-- Loading Screen -->
+        <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+        <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;top: 0px; left: 0px; width: 100%; height: 100%;"> </div>
+        <div style="position: absolute; display: block; background: url(images/loading.gif) no-repeat center center;top: 0px; left: 0px; width: 100%; height: 100%;"> </div>
+      </div>
+        <div u="slides" style=" position: absolute; left: 0px; top: 0px;  height:780px; width:1349px; overflow: hidden;">
+        <div class="slide-part"> <img u="image" src="images/site_survey.jpg" class="stieS-img" />
+            <figure> <span>
+              <div> <span>
+                <div class="" style=" position:relative;float:right; width:600px; text-align:right; padding-top:25%; padding-right:170px; line-height:80px; font-size:90px; font-weight:bold; height:200px; color:#FFF"> Site<br>
+                Survey </div>
+                </span> </div>
+              </span> </figure>
+          </div>
+        <div class="slide-part"> <img u="image" src="images/site_survey_2.jpg" class="stieS-img" />
+            <div>
+            <figure class="copy">
+            <div class="copy stie_2"> <img src="images/siteSurvey.png" alt=""/><br/>
+                Pre-installation surveys ensure that proposed ATM installations will work for a given<br>
+                location. Logistical issues, cost overruns, and delays are expensive and frustrating.<br>
+                Pre-installation surveys ensure that potential issues are identified, quantified, and <br>
+                reported consistently. <br>
+                Post-installation surveys ensure that installation vendors completed the scope of<br>
+                work correctly.  Installation problems can be identified quickly, allowing<br>
+                management of your vendors to be more efficent and transparent.  No more<br>
+                guesswork,  assumptions, and expensive follow up.  When you partner with ATA<br>
+                Services you can manage critical data from FleetView our enhanced online database.
+                </div>
+                </figure>
+                <div class="images"> <img src="images/siteSurvey2.png" alt="All Site Survey Frame 02"> </div>
+              </div>
+          </div>
+            <div class="slide-part"> 
+            <!--<img u="image" src="images/site_survey-video.jpg" class="stieS-img" />-->
+            <div>
+                <div class="images videoP"> <a href="#"><img src="video/video.png" alt="Video"></a> 
+                <!--<object width="714" height="402"><param name="movie" value="https://www.youtube.com/v/pm740cxZIsU?version=3&amp;hl=en_GB&amp;rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="https://www.youtube.com/v/pm740cxZIsU?version=3&amp;hl=en_GB&amp;rel=0" type="application/x-shockwave-flash" width="714" height="402" allowscriptaccess="always" allowfullscreen="true"></embed></object>--> 
+                <!--<object width="714" height="402">
+                                            <param name="movie" value="https://www.youtube.com/v/pm740cxZIsU?version=3&amp;hl=en_GB&amp;rel=0"></param>
+                                            <param name="allowFullScreen" value="true"></param>
+                                            <param name="allowscriptaccess" value="always"></param>
+                                            <param name="wmode" value="transparent"></param>
+                                            <embed src="https://www.youtube.com/v/pm740cxZIsU?version=3&amp;hl=en_GB&amp;rel=0" type="application/x-shockwave-flash" width="714" height="402" allowscriptaccess="always" allowfullscreen="true" wmode="transparent"></embed>
+                                        </object>-->
+                
+                <div class="play_me" data-video-id="player_site_survey"></div>
+              </div>
+              </div>
+          </div>
+          </div>
+        <!-- Arrow Left --> 
+        <span u="arrowleft" class="jssora21l" style="width: 55px; height: 55px; top: 23px; left: 8px;"> </span> 
+        <!-- Arrow Right --> 
+        <span u="arrowright" class="jssora21r" style="width: 55px; height: 55px; top: 23px; right: 8px"> </span> 
+        <!-- Arrow Navigator Skin End --> 
+      </div>
+      </article>
+  </li>
+    <!--<li class="" id="site_survey" data-next-name="About ATA" data-subline="Cleaning" data-header="light" data-keyboard="keys_up_down_left_right_active">
+	<article><span class="scrollDetectMiddle"></span>
+	<figure class="background"></figure>
+	<ol class="horizontal">
+    <li style="" class="zero current">
+    <figure>
+        <span >
+		<div>
+            <span>
+			<div class="" style="float:right; width:600px; text-align:right; padding-top:23%; padding-right:170px; line-height:80px; font-size:90px; font-weight:bold; height:200px; color:#FFF">
+				Site<br>
+				Survey
+			</div>
+            </span>
+		</div>
+        </span>
+        </figure>
+		</li>
+		<li style="" class="two">
+		<div>
+			<figure class="copy">
+			<div class="copy stie_2">
+				<img src="images/siteSurvey.png" alt=""/><br/> Ensuring that proposed ATM installations will work for a given location is critical - logistical issues, cost overruns, and delays are expensive and frustrating. Pre-installation surveys ensure that potential issues are identified, quantified, and reported consistently. <br>
+				 Post-installation surveys ensure that installation vendors completed the scope of work correctly. Installation problems can be identified quickly - and the vendor can be held accountable to correct the issue in a timely manner. No more guesswork, assumptions, and expensive follow up. When you partner with ATA Services you can manage critical data from our enhanced online database FleetView. Know for sure with our comprehensive Pre and Post Site Surveys.
+			</div>
+			</figure>
+			<div class="images">
+				<img src="images/siteSurvey2.png" alt="All Site Survey Frame 02">
+			</div>
+		</div>
+		</li>
+		<li style=" background-image: url(images/site_survey-video.jpg); background-repeat: no-repeat; background-size: 100% auto; background-position: center top; " class="three">
+		<div>
+			<div class="images videoP">
+				
+               <object width="714" height="402">
+                                    <param name="movie" value="https://www.youtube.com/v/pm740cxZIsU?version=3&amp;hl=en_GB&amp;rel=0"></param>
+                                    <param name="allowFullScreen" value="true"></param>
+                                    <param name="allowscriptaccess" value="always"></param>
+                                    <param name="wmode" value="transparent"></param>
+                                    <embed src="https://www.youtube.com/v/pm740cxZIsU?version=3&amp;hl=en_GB&amp;rel=0" type="application/x-shockwave-flash" width="714" height="402" allowscriptaccess="always" allowfullscreen="true" wmode="transparent"></embed>
+                                </object>
+
+            	<div class="play_me" data-video-id="player_site_survey"></div>
+			</div>
+		</div>
+		</li>
+	</ol>
+	<div class="arrow_left inactive">
+	</div>
+	<div class="arrow_right">
+	</div>
+	</article>
+	</li>--> 
+    <!--<li id="log_reg" data-next-name="About ATA" data-subline="Site Survey" data-header="light" data-keyboard="keys_down_up_active">
+	<article><span class="scrollDetectMiddle"></span>
+    	<section class="formWrap">
+          <div class="formpane">
+            <div class="loginF">
+              <h1>CURRENT CUSTOMERS</h1>
+              <h3>IF YOU HAVE AN ACCOUNT WITH US, PLEASE LOGIN BELOW. </h3>
+              <div class="loginFPane_l">
+                <div class="loginInwrap_l">
+                  <div class="linpuuts">
+                    <label>User Name</label>
+                    <input type="text" placeholder="User Name">
+                  </div>
+                  <div class="linpuuts">
+                    <label>Password</label>
+                    <input type="password" placeholder="Password">
+                  </div>
+                  <div class="linpuuts f14tc">FORGOT YOUR PASSWORD? </div>
+                  <div class="lbtn">
+                    <input type="submit" value="LOGIN" style="padding-right:67px;">
+                    &nbsp;&nbsp; </div>
+                </div>
+              </div>
+              <div class="clear"></div>
+            </div>
+            <div class="loginF">
+              <h1>NEW CUSTOMERS</h1>
+              <div class="fborder"> <h3>IF YOU WOULD LIKE TO CREATE AN ACCOUNT, PLEASE CREATE
+                AN ACCOUNT BELOW.</h3>
+             
+                <div class="loginFPane">
+                  <div class="loginInwrap">
+                    <div class="linpuuts">
+                      <label>First Name*</label>
+                      <input type="text" placeholder="User Name">
+                    </div>
+                    <div class="linpuuts">
+                      <label>Last Name *</label>
+                      <input type="text" placeholder="User Name">
+                    </div>
+                  </div>
+                  <div class="loginInwrap">
+                    <div class="linpuuts">
+                      <label>Email Address*</label>
+                      <input type="text" placeholder="Email Address">
+                    </div>
+                    <div class="linpuuts">
+                      <label>Company</label>
+                      <input type="text" placeholder="Company">
+                    </div>
+                  </div>
+                  <div class="loginInwrap">
+                    <div class="linpuuts">
+                      <label>Primary Phone Number *</label>
+                      <input type="text" placeholder="Primary Phone Numbere">
+                    </div>
+                    <div class="linpuuts">
+                      <label>Alternate Phone Number</label>
+                      <input type="text" placeholder="Alternate Phone Number">
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="clear f14tc_sup">
+                    <input type="checkbox">
+                    &nbsp;Sign up for newsletter</div>
+                  <div class="supbtn">
+                    <input type="submit" value="Create Account" style="background:none;">
+                    &nbsp;&nbsp; </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        	<div class="clear"></div>
+        	</div>
+  		<div class="clear"></div>
+		</section>
+    </article>
+	</li>-->
+    <li class="" id="about_ata" data-next-name="About ATA" data-subline="Cleaning/Maintenance" data-header="light" data-keyboard="keys_up_down_left_right_active">
+            <article>
+                <span class="scrollDetectMiddle"></span>
+                <div id="slider1_container4" class="site_survey" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width:1349px;  height: 780px; overflow: hidden;">
+                    <!-- Loading Screen -->
+                    <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+                    <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;top: 0px; left: 0px; width: 100%; height: 100%;"> </div>
+                    <div style="position: absolute; display: block; background: url(images/loading.gif) no-repeat center center;top: 0px; left: 0px; width: 100%; height: 100%;"> </div>
+                  </div>
+                    <div u="slides" style=" position: absolute; left: 0px; top: 0px; width:1349px;  height:780px; overflow: hidden;">
+                    <div class="slide-part"> <img u="image" src="images/all_in.jpg" class="stieS-img" />
+                        <figure> <span>
+                          <div> <span>
+                            <div class="" style=" position:relative;float:right; width:600px; text-align:right; padding-top:25%; padding-right:170px; line-height:80px; font-size:90px; font-weight:bold; height:200px; color:#FFF"> About<br>
+                            ATA </div>
+                            </span> </div>
+                          </span> 
+                          </figure>
+                      </div>
+                     
+                    <!-- Arrow Left  
+                    <span u="arrowleft" class="jssora21l" style="width: 55px; height: 55px; top: 23px; left: 8px;"> </span> 
+                    
+                    <span u="arrowright" class="jssora21r" style="width: 55px; height: 55px; top: 23px; right: 8px"> </span> 
+                    <!-- Arrow Navigator Skin End --> 
+                  </div>
+                </div>
+      		</article>
+        </li>
+  </ul>
+<footer style="overflow: visible; height: 70px; opacity: 1;" id="footer">
+    <div class="innerWrapper">
+    <figure id="share"><a href="https://www.facebook.com/sharer/sharer.php?u=atafleetview" id="facebook"></a><a href="https://www.linkedin.com/pub/ata-fleetview/99/bbb/a87" id="twitter" data-lang="en"></a></figure>
+    <!--<div class="keys_up_down_left_right_active" id="keys"></div>--> 
+    <span id="subline"><span class="video"></span><span id="sublineContent"></span></span>
+    <div id="nextTopic"> <span></span> </div>
+  </div>
+  </footer>
+<!--Videos here-->
+<div class="player" id="player_site_survey">
+    <video id="video_site_survey" controls preload="none" height="100%" width="100%" poster="images/loader.gif" >
+    <source type="video/mp4" src="video/ata-services-site-survey2.mp4">
+    <source type="video/ogg" src="video/ata-services-site-survey2.ogv">
+    <source type="video/webm" src="video/ata-services-site-survey2.webm">
+  </video>
+    <div class="close"></div>
+  </div>
+<!--End Videos here--> 
+<script src="js/nav-action.js"></script> 
+<script>
+    /*$(document).ready(function(){
+        $("#header-ul a").click(function(evn){
+            evn.preventDefault();
+            $('html,body').scrollTo(this.hash, this.hash); 
+        });
+    });*/
+	$(document).ready(function(){		
+		//$('#cleaning').after(document.createElement('<li></li>'));
+		$("#cleaning").after("<li class='hide-li'></li><li class='hide-li'></li><li class='hide-li'></li>");
+		//$('#slider1_container').children().first().css({'-webkit-transform':'scale(1)','-moz-transform':'scale(1)','transform':'scale(1)'} );
+		/*$('.play_me').click(function(){
+			$('#player_site_survey').appendTo($('.videoP'));
+		})*/
+		//$('#slider1_container1').children().first().css('width','1549px');
+		//$('.horizontal li').each(function() {
+//					var fg = $(this).attr('class');
+//					if(fg == 'zero current'){
+//						f.find("figure.background").removeClass("scrolled");	
+//					}
+//				})
+		//var wt = $(window).width();
+//			//$('.slides, #slider1_container,#slider1_container1,#slider1_container2,#slider1_container3,#slider1_container4').css('width' , wt);
+//			//$('#topics li').css('width' , wt);
+//	
+//		window.onresize = function(event) {
+//			//$('.slides, #slider1_container,#slider1_container1,#slider1_container2,#slider1_container3,#slider1_container4').css('width' , wt);
+//		}
+		//$('.txtparafrm').appendTo($('#slider1_container'));
+		//$('.txtparafrm').css('transform','scale(1)');
+		
+	});
+</script> 
+<!--<script src="js/custom.js"></script>--> 
+<!--<script src='js/jquery.scrollto.js'></script>--> 
+
+<!-- jssor.slider.mini.js = jssor.sliderc.mini.js = jssor.sliders.mini.js = (jssor.core.js + jssor.utils.js + jssor.slider.js) --> 
+
+</body>
+</html>
